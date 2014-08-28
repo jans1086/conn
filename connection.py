@@ -47,8 +47,8 @@ def agent_auth(transport, username):
 
 
 def manual_auth(username, hostname):
-    if os.path.isfile(os.path.join(os.environ['HOME'], '.ssh', 'id_rsa')):
-        default_path = os.path.join(os.environ['HOME'], '.ssh', 'id_rsa')
+    try:        
+        default_path = os.path.join(os.environ['HOME'], '.ssh', 'id_rsaa')
         path = default_path
         try:
             key = paramiko.RSAKey.from_private_key_file(path)
@@ -56,22 +56,23 @@ def manual_auth(username, hostname):
             password = getpass.getpass('RSA key password: ')
             key = paramiko.RSAKey.from_private_key_file(path, password)
         t.auth_publickey(username, key)
-    elif os.path.isfile(os.path.join(os.environ['HOME'], '.ssh', 'id_dsa')):
-        default_path = os.path.join(os.environ['HOME'], '.ssh', 'id_dsa')
-        path = default_path
+    except:     
         try:
-            key = paramiko.DSSKey.from_private_key_file(path)
-        except paramiko.PasswordRequiredException:
-            password = getpass.getpass('DSS key password: ')
-            key = paramiko.DSSKey.from_private_key_file(path, password)
-        t.auth_publickey(username, key)
-    #except paramiko.AuthenticationException as e:
-    else:
-        pw = getpass.getpass('Password for %s@%s: ' % (username, hostname))
-        try:
-            t.auth_password(username, pw)
-        except (paramiko.AuthenticationException, KeyboardInterrupt) as error:
-            print 'Permission denied, Authentication Error'
+            default_path = os.path.join(os.environ['HOME'], '.ssh', 'id_dsa')
+            path = default_path
+            try: 
+                key = paramiko.DSSKey.from_private_key_file(path)
+            except paramiko.PasswordRequiredException:
+                password = getpass.getpass('DSS key password: ')
+                key = paramiko.DSSKey.from_private_key_file(path, password)
+            t.auth_publickey(username, key)
+        #except (IOError, paramiko.AuthenticationException) as e:
+        except:
+            pw = getpass.getpass('Password for %s@%s: ' % (username, hostname))
+            try:
+                t.auth_password(username, pw)
+            except (paramiko.AuthenticationException, KeyboardInterrupt) as error:
+                print 'Permission denied, Authentication Error'
 
 
 username = getpass.getuser()
