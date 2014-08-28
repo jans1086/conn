@@ -115,8 +115,9 @@ def posix_shell(chan):
 
 
         day =time.strftime('%Y%m%d')
-        reduce_log = open('logs/%s-%s-%s.log' % (day, hostname, username), 'a')
-        detail_log = open('logs/%s-%s-%s-detail.log' % (day, hostname, username), 'a')
+        value = {'day':day, 'hostname':hostname, 'username':username}
+        reduce_log = open('logs/%(day)s-%(hostname)s-%(username)s.log' % value, 'a')
+        detail_log = open('logs/%(day)s-%(hostname)s-%(username)s-detail.log' % value, 'a')
         while True:
             date =time.strftime('%Y-%m-%d %H:%M:%S')
             r, w, e = select.select([chan, sys.stdin], [], [])
