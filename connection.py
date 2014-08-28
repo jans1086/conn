@@ -152,7 +152,7 @@ def posix_shell(chan):
                 if x == '\r':
                     cmd = ''.join(record).split('\r')[-2]
                     if len(cmd) != 0:
-                        reduce_log.write('%s\t%s\t%s\t%s\n' % (date, 'hh-b2c-miorder-backend-web01.bj', 'root', cmd))
+                        reduce_log.write('%s\t%s\t%s\t%s\n' % (date, hostname, username, cmd))
                         reduce_log.flush()
                         #print record,'-'
                         record = []
