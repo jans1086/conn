@@ -48,7 +48,7 @@ def agent_auth(transport, username):
 
 def manual_auth(username, hostname):
     try:        
-        default_path = os.path.join(os.environ['HOME'], '.ssh', 'id_rsaa')
+        default_path = os.path.join(os.environ['HOME'], '.ssh', 'id_rsa')
         path = default_path
         try:
             key = paramiko.RSAKey.from_private_key_file(path)
